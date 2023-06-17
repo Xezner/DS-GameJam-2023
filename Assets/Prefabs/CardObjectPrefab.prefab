@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 463632808814993913}
   - component: {fileID: 8973682728681332101}
   m_Layer: 0
-  m_Name: PaperObject
+  m_Name: CardObjectPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -189,7 +189,7 @@ Transform:
   m_Children:
   - {fileID: 5326123916891658486}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8973682728681332101
 MonoBehaviour:
@@ -206,3 +206,5 @@ MonoBehaviour:
   ObjectPrefab: {fileID: 8603948437158037042}
   CardType: 0
   SpriteRenderer: {fileID: 3153895751750683344}
+  InputType: 0
+  IsTouched: 0

@@ -183,7 +183,7 @@ Transform:
   - {fileID: 817316602557764852}
   - {fileID: 2405525808053178157}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5825371851921513161
 MonoBehaviour:
@@ -197,15 +197,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 209a9ab3cba32b64bb7452d91b6ee79e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _paperPrefab: {fileID: 0}
-  _proceduralObject: {fileID: 0}
-  _paperSpawnPoints:
+  _cardPrefab: {fileID: 0}
+  _cardSpawnPoints:
   - {fileID: 4982093853396007607}
   - {fileID: 1758753439377839152}
   - {fileID: 4697886076156120979}
   - {fileID: 817316602557764852}
   - {fileID: 2405525808053178157}
-  _paperObjects: []
+  _cardData: {fileID: 0}
+  _cardDataList: []
 --- !u!1 &5955188569487138823
 GameObject:
   m_ObjectHideFlags: 0

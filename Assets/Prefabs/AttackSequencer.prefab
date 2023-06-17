@@ -182,7 +182,7 @@ Transform:
   - {fileID: 3879473167115106425}
   - {fileID: 7401938375133625538}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1076576776883823515
 MonoBehaviour:
@@ -200,12 +200,13 @@ MonoBehaviour:
   - {fileID: 7640794635772005514}
   - {fileID: 3879473167115106425}
   - {fileID: 7401938375133625538}
-  _attackSprites:
+  AttackSprites:
   - {fileID: 1477203774733136310}
   - {fileID: 262035388977066309}
   - {fileID: 7839185085908865131}
   _attackCardSequence: 
   Animator: {fileID: 301629694413669358}
+  _attackSequenceAnimationController: {fileID: 0}
 --- !u!95 &301629694413669358
 Animator:
   serializedVersion: 5
