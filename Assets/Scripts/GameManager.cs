@@ -41,4 +41,19 @@ public partial class GameManager : MonoBehaviour
     {
         DifficultySelection.BackToMainMenu();
     }
+
+    public void EasyDifficulty()
+    {
+        DifficultySelection.EasyDifficulty();
+    }
+
+    public void NormalDifficulty()
+    {
+        DifficultySelection.NormalDifficulty();
+    }
+
+    public void HardDifficulty()
+    {
+        DifficultySelection.HardDifficulty();
+    }
 }
