@@ -5,6 +5,12 @@ using UnityEngine;
 public partial class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+
+    [SerializeField] private GameObject _difficulty;
+    [SerializeField] private GameObject _mainMenuUI;
+    public GameObject Difficulty { get { return _difficulty; } set { value = _difficulty; } }
+    public GameObject MainMenuUI { get { return _mainMenuUI; } set { value = _mainMenuUI; } }
+
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
@@ -19,5 +25,20 @@ public partial class GameManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void StartGame()
+    {
+        MainMenu.StartGame();
+    }
+
+    public void QuitGame()
+    {
+        MainMenu.QuitGame();
+    }
+
+    public void BackToMainMenu()
+    {
+        DifficultySelection.BackToMainMenu();
     }
 }
