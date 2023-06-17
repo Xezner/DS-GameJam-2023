@@ -4,13 +4,13 @@ using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(ButtonTest))]
-public class ObjectGeneratorEditor : Editor
+public class CardGenerationEditorTester : Editor
 {
     public override void OnInspectorGUI()
     {
         if(GUILayout.Button("GENERATE NEW OBJECT"))
         {
-            ObjectGenerator.Instance.GenerateObjectPool();
+            CardGenerationManager.Instance.GenerateObjectPool();
         }
     }
 }
