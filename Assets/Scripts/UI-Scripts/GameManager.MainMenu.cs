@@ -2,18 +2,17 @@ using UnityEngine;
 
 public partial class GameManager
 {
-    public GameObject Difficulty;
-    public GameObject MainMenuUI;
-
-    public void StartGame()
+    public static class MainMenu
     {
-        //Load difficulty setting
-        MainMenuUI.SetActive(false);
-        Difficulty.SetActive(true);
-    }
-
-    public void QuitGame()
-    {
-        Application.Quit();
+        public static void StartGame()
+        {
+            //Load difficulty setting
+            Instance._mainMenuUI.SetActive(false);
+            Instance._difficulty.SetActive(true);
+        }
+        public static void QuitGame()
+        {
+            Application.Quit();
+        }
     }
 }
