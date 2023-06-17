@@ -26,34 +26,4 @@ public partial class GameManager : MonoBehaviour
     {
         
     }
-
-    public void StartGame()
-    {
-        MainMenu.StartGame();
-    }
-
-    public void QuitGame()
-    {
-        MainMenu.QuitGame();
-    }
-
-    public void BackToMainMenu()
-    {
-        DifficultySelection.BackToMainMenu();
-    }
-
-    public void EasyDifficulty()
-    {
-        DifficultySelection.EasyDifficulty();
-    }
-
-    public void NormalDifficulty()
-    {
-        DifficultySelection.NormalDifficulty();
-    }
-
-    public void HardDifficulty()
-    {
-        DifficultySelection.HardDifficulty();
-    }
 }
