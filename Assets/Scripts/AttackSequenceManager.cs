@@ -5,9 +5,10 @@ using UnityEngine;
 public class AttackSequenceManager : MonoBehaviour
 {
     [SerializeField] private Transform[] _attackSequenceSpawnPoints;
-    [SerializeField] private List<SpriteRenderer> _attackSprites;
+    [SerializeField] public List<SpriteRenderer> AttackSprites;
     [SerializeField] private List<CardType> _attackCardSequence;
     [SerializeField] public Animator Animator;
+    [SerializeField] private AttackSequenceAnimationController _attackSequenceAnimationController;   
     private int _attackCount;
     const int MAX_ATTACK_COUNT = 3;
 
@@ -26,15 +27,15 @@ public class AttackSequenceManager : MonoBehaviour
 
     public void ExecuteAttack()
     {
-        if (_attackCardSequence.Count >= MAX_ATTACK_COUNT)
+        if (_attackCardSequence.Count >= 1)
         {
-            Animator.SetTrigger("Execute");
+            _attackSequenceAnimationController.ExecuteAttack();
         }
     }
 
     public void ResetAttackSequence()
     {
-        foreach(SpriteRenderer attackSprite in _attackSprites)
+        foreach(SpriteRenderer attackSprite in AttackSprites)
         {
             attackSprite.color = Color.white;
         }
@@ -48,7 +49,7 @@ public class AttackSequenceManager : MonoBehaviour
         {
             return;
         }
-        _attackSprites[_attackCount].color = colorStyle;
+        AttackSprites[_attackCount].color = colorStyle;
         _attackCardSequence.Add(cardType);
         _attackCount++;
     }

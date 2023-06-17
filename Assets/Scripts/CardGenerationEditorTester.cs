@@ -10,7 +10,7 @@ public class CardGenerationEditorTester : Editor
     {
         if(GUILayout.Button("GENERATE NEW OBJECT"))
         {
-            CardGenerationManager.Instance.GenerateObjectPool();
+            CardMechanicManager.Instance.GenerateCardPool();
         }
     }
 }
