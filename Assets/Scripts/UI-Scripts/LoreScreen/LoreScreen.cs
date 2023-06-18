@@ -3,44 +3,46 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class LoreScreen : MonoBehaviour
 {
-    [SerializeField] private string[] _dialogueStrings;
     [SerializeField] private TextMeshProUGUI _dialogueText;
-    [SerializeField] private GameObject _loreScreen;
-    [SerializeField] private int _index;
-    [SerializeField] private float _wordSpeed;
+    [SerializeField] private float _scrollSpeed;
+    public GameObject Tutorial;
+    public GameObject ScreenButton;
+    public Transform DialogueTextTrans;
+    private int camPos = 2000;
 
     private void Start()
     {
-        StartCoroutine(TypingEffect());
+
     }
 
-    public void NextLine()
+    void TextCrawl()
     {
-        if (_index < _dialogueStrings.Length -1)
+        transform.Translate(Camera.main.transform.up * _scrollSpeed * Time.deltaTime);
+    }
+
+    private void Update()
+    {
+        TextCrawl();
+
+        if (DialogueTextTrans.position.y > camPos)
         {
-            _index++;
-            _dialogueText.text = "";
-            StartCoroutine(TypingEffect());
-        }
-        else
-        {
-            Destroy(_loreScreen);
+            ShowTutorial();
         }
     }
 
-
-
-
-
-    IEnumerator TypingEffect()
+    void ShowTutorial()
     {
-        foreach(char letter in _dialogueStrings[_index].ToCharArray())
-        {
-            _dialogueText.text += letter;
-            yield return new WaitForSeconds(_wordSpeed);
-        }
+        Tutorial.SetActive(true);
+        ScreenButton.SetActive(true);
+    }
+
+    public void ClickAnywhereToContinue()
+    {
+        SceneManager.UnloadSceneAsync(GameManager.Scenes.LoreScreen.ToString());
+        SceneManager.LoadScene(GameManager.Scenes.GameScene.ToString(),LoadSceneMode.Additive);
     }
 }
