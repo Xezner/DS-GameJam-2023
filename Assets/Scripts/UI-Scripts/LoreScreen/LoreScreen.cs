@@ -37,7 +37,7 @@ public class LoreScreen : MonoBehaviour
     void ShowTutorial()
     {
         Tutorial.SetActive(true);
-        ScreenButton.SetActive(true);
+        //ScreenButton.SetActive(true);
     }
 
     public void ClickAnywhereToContinue()
