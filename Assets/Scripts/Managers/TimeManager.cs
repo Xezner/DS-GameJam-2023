@@ -5,12 +5,14 @@ using System.Collections.Generic;
 using System.Threading;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance;
 
     [SerializeField] private TextMeshProUGUI _timerText;
+    [SerializeField] private Image _timeUISprite;
 
     private int _currentTime;
     public int CurrentTime { get { return _currentTime; } set{ _currentTime = value; } }
@@ -44,10 +46,15 @@ public class TimeManager : MonoBehaviour
             {
                 return;
             }
-            _timerText.text = $"Time Left: {_currentTime}";
+            _timerText.text = $"{_currentTime}";
             await UniTask.Delay(ONE_SECOND);
             _currentTime--;
         }
+    }
+
+    public void UpdateTimerState(Sprite _sprite)
+    {
+        _timeUISprite.sprite = _sprite;
     }
 
     public void IncreaseTime(int timeIncrease)

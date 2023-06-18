@@ -138,22 +138,26 @@ public class CardMechanicManager : MonoBehaviour
     {
         if (!IsTokenCancelled)
         {
-            _cardSpawnPoints[0].transform.parent.gameObject.SetActive(false);
-            //foreach(Transform child in _cardSpawnPoints[0].transform.parent)
-            //{
-            //    child.gameObject.SetActive(false);
-            //}
-            _attackSequencer.SetActive(false);
+            HideCardAndEncoder();
             _cameraAnimationController.AnimateCameraDeath();
             Debug.LogError("GAME OVER BITCH!");
         }
         else
         {
+            HideCardAndEncoder();
+            _cameraAnimationController.AnimateCameraWin();
             Debug.LogError("MISSION CLEARED");
             //Open UI for victory Screen
         }
+        EnemyManager.Instance.GameStartedToggler();
     }
 
+    public void HideCardAndEncoder()
+    {
+        TimeManager.Instance.gameObject.SetActive(false);
+        _cardSpawnPoints[0].transform.parent.gameObject.SetActive(false);
+        _attackSequencer.SetActive(false);
+    }
 
     public void RandomizeCardType(out CardType cardType, out Sprite cardStyle)
     {
