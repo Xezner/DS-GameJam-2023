@@ -8,12 +8,12 @@ public class GameOverButtons : MonoBehaviour
     public enum Scenes
     {
         //will change
-        LoreScene,
+        LoreScreen,
         UISample
     }
     public void Retry(int sceneNum)
     {
-        SceneManager.LoadScene(Scenes.LoreScene.ToString());
+        SceneManager.LoadScene(Scenes.LoreScreen.ToString());
     }
 
     public void ReturnToMainMenu()
