@@ -5,13 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class GameOverButtons : MonoBehaviour
 {
-    public void Retry()
+    public enum Scenes
     {
-        SceneManager.LoadScene(2);
+        //will change
+        LoreScene,
+        UISample
+    }
+    public void Retry(int sceneNum)
+    {
+        SceneManager.LoadScene(Scenes.LoreScene.ToString());
     }
 
     public void ReturnToMainMenu()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(Scenes.UISample.ToString());
     }
 }
