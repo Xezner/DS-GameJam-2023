@@ -8,7 +8,6 @@ public class LoreScreen : MonoBehaviour
 {
     [SerializeField] private string[] _dialogueStrings;
     [SerializeField] private TextMeshProUGUI _dialogueText;
-    [SerializeField] private GameObject _clickText;
     [SerializeField] private GameObject _loreScreen;
     [SerializeField] private int _index;
     [SerializeField] private float _wordSpeed;

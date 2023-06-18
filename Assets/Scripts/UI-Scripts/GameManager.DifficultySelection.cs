@@ -21,7 +21,7 @@ public partial class GameManager
 
     public static void BackToMainMenu()
     {
-        Instance.Difficulty.SetActive(false);
-        Instance.MainMenuUI.SetActive(true);
+        Instance._difficulty.SetActive(false);
+        Instance._mainMenuUI.SetActive(true);
     }
 }
