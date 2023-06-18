@@ -1,8 +1,10 @@
 using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks.Triggers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,10 +17,13 @@ public class CardMechanicManager : MonoBehaviour
     [SerializeField] private CardData _cardData;
     [SerializeField] List<CardData> _cardDataList;
 
+    [Header("Objects To Turn off")]
+    [SerializeField] private GameObject _attackSequencer;
 
     [Header("Level Data")]
     [SerializeField] int _countdownTimer;
     [SerializeField] private int _gameSpeed;
+    [SerializeField] private EnemyData _enemyData;
 
     //Temp sprite data change when there are levels
     [Header("Card Sprites")]
@@ -30,12 +35,18 @@ public class CardMechanicManager : MonoBehaviour
     [SerializeField] private Sprite _approveOverlay;
     [SerializeField] private Sprite _rejectOverlay;
 
+    [Header("Camera Animator")]
+    [SerializeField] private CameraAnimationController _cameraAnimationController;
+
     public Dictionary<InputType, Sprite> CardOverlay { get { return _cardOverlay; } set { _cardOverlay = value; } }
+    public Dictionary<CardType, Sprite> CardStyle { get { return _cardStyle; } set { _cardStyle = value; } }
     private Dictionary<InputType, Sprite> _cardOverlay;
     private Dictionary<CardType, Sprite> _cardStyle;
     private int _objectCount;
     private int MAX_OBJECT_COUNT;
     private LevelData _levelData;
+
+    public bool IsTokenCancelled = false;
     private void Awake()
     {
         if(Instance == null)
@@ -46,16 +57,26 @@ public class CardMechanicManager : MonoBehaviour
 
     private void Start()
     {
-        SetDifficulty();
+        
+        
+    }
+
+    public void Init()
+    {
         InitCardSprites();
         ResetCardPool();
+        SetLevelData();
+
+
     }
+
 
     public void Update()
     {
         if(Input.GetKeyDown(KeyCode.Return))
         {
-            _countdownTimer = 30;
+            Init();
+            //_countdownTimer = 30;
             TimeManager.Instance.CountdownTimer(_countdownTimer).Forget();
             GenerateCardPool().Forget();
         }
@@ -91,8 +112,12 @@ public class CardMechanicManager : MonoBehaviour
 
     public async UniTask GenerateCardPool()
     {
-        while (TimeManager.Instance.CurrentTime > 0)
+        while (TimeManager.Instance.CurrentTime > 0 && !IsTokenCancelled)
         {
+            if (IsTokenCancelled)
+            {
+                return;
+            }
             //Debug.Log(TimeManager.Instance.CurrentTime);
             RandomizeCardType(out CardType cardType, out Sprite cardStyle);
             PopCardList();
@@ -106,8 +131,29 @@ public class CardMechanicManager : MonoBehaviour
             _gameSpeed -= ( (TimeManager.Instance.CurrentTime / 10) * (_gameSpeed / 100));
         }
 
-        Debug.LogError("GAME OVER BITCH!");
+        GameOver();
     }
+
+    public void GameOver()
+    {
+        if (!IsTokenCancelled)
+        {
+            _cardSpawnPoints[0].transform.parent.gameObject.SetActive(false);
+            //foreach(Transform child in _cardSpawnPoints[0].transform.parent)
+            //{
+            //    child.gameObject.SetActive(false);
+            //}
+            _attackSequencer.SetActive(false);
+            _cameraAnimationController.AnimateCameraDeath();
+            Debug.LogError("GAME OVER BITCH!");
+        }
+        else
+        {
+            Debug.LogError("MISSION CLEARED");
+            //Open UI for victory Screen
+        }
+    }
+
 
     public void RandomizeCardType(out CardType cardType, out Sprite cardStyle)
     {
@@ -123,8 +169,11 @@ public class CardMechanicManager : MonoBehaviour
     {
         if (_objectCount >= MAX_OBJECT_COUNT)
         {
-            Destroy(_cardDataList[MAX_OBJECT_COUNT - 1].gameObject);
+            var toDestroy = _cardDataList[MAX_OBJECT_COUNT - 1];
             _cardDataList.Remove(_cardDataList[MAX_OBJECT_COUNT - 1]);
+            toDestroy.Animator.ResetTrigger("Spawn");
+            toDestroy.Animator.ResetTrigger("Despawn");
+            Destroy(toDestroy.gameObject);
             _objectCount--;
         }
     }
@@ -132,7 +181,7 @@ public class CardMechanicManager : MonoBehaviour
 
     private async UniTask PushCardList(CardType cardType, Sprite colorStyle)
     {
-        for (int counter = 0; counter < _cardDataList.ToList().Count; counter++)
+        for (int counter = 0; counter < _cardDataList.Count; counter++)
         {
             var cardData = _cardDataList[counter];
             var animator = cardData.Animator;
@@ -154,18 +203,18 @@ public class CardMechanicManager : MonoBehaviour
         currentPaperObject.Overlay.sprite = null;
         _cardDataList.Insert(0, currentPaperObject);
 
-
         _cardDataList.First().HideSprites();
         if (_objectCount >= MAX_OBJECT_COUNT - 1)
         {
-            _cardDataList.Last().HideSprites();
+            _cardDataList?.Last().HideSprites();
             AttackSequenceManager.Instance.InitiateAttackSequence(_cardDataList[MAX_OBJECT_COUNT-1]);
         }
     }
 
-    private void SetDifficulty(/*LevelData*/)
+    private void SetLevelData(/*LevelData*/)
     {
         _levelData = new();
+        EnemyManager.Instance.InitEnemyData();
     }
 
 }
@@ -177,5 +226,6 @@ public class LevelData
     public int AttackRate = 50;
     public int RandomRate = 30;
     public int MedicardRate = 0;
+    public EnemyData EnemyData;
 
 }
