@@ -206,7 +206,12 @@ MonoBehaviour:
   _cardData: {fileID: 8973682728681332101, guid: 61074950b35e0fb40bc1a7a84f695f2a, type: 3}
   _cardDataList: []
   _countdownTimer: 30
-  _gameSpeed: 800
+  _gameSpeed: 1000
+  _attackIcon: {fileID: 21300000, guid: 6ba6ea225b880cd4b88e3b6ace998624, type: 3}
+  _randomIcon: {fileID: 21300000, guid: 79bc53e03ecc67f45af0a0efc578a5d0, type: 3}
+  _medicardIcon: {fileID: 21300000, guid: 403d1ec23a0b92c4abc6db38b01bb962, type: 3}
+  _approveOverlay: {fileID: 21300000, guid: c1b8b31972698a842b964ebd4d5cc8cb, type: 3}
+  _rejectOverlay: {fileID: 21300000, guid: ceaaa94c32ac56a4f94575ce318adb67, type: 3}
 --- !u!1 &5955188569487138823
 GameObject:
   m_ObjectHideFlags: 0

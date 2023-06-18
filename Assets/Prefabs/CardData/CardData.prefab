@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3629529377060468516
 Transform:
   m_ObjectHideFlags: 0
@@ -258,7 +258,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6559712886753162703
 Transform:
   m_ObjectHideFlags: 0
@@ -408,11 +408,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectPrefab: {fileID: 8603948437158037042}
   CardType: 0
-  SpriteRenderer: {fileID: 3153895751750683344}
+  Card: {fileID: 3153895751750683344}
+  Overlay: {fileID: 2224246814384609545}
+  Icon: {fileID: 6643670257403914917}
   InputType: 0
   IsTouched: 0
   Rigidbody: {fileID: 2888996654701182750}
   Animator: {fileID: 6894645494025726357}
+  Collider: {fileID: 4053315495110944373}
 --- !u!95 &6894645494025726357
 Animator:
   serializedVersion: 5
