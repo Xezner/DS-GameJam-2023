@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using Cysharp.Threading.Tasks.Triggers;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 
@@ -13,6 +14,8 @@ public class TimeManager : MonoBehaviour
 
     private int _currentTime;
     public int CurrentTime { get { return _currentTime; } set{ _currentTime = value; } }
+
+    public int MaxTime;
 
     const int ONE_SECOND = 1000;
 
@@ -32,13 +35,26 @@ public class TimeManager : MonoBehaviour
 
     public async UniTask CountdownTimer(int maxTimer)
     {
-        while(maxTimer >= 0)
+
+        MaxTime = maxTimer;
+       _currentTime = maxTimer;
+        while (_currentTime >= 0 && !CardMechanicManager.Instance.IsTokenCancelled)
         {
-            _currentTime = maxTimer;
+            if (CardMechanicManager.Instance.IsTokenCancelled)
+            {
+                return;
+            }
             _timerText.text = $"Time Left: {_currentTime}";
             await UniTask.Delay(ONE_SECOND);
-            maxTimer--;
+            _currentTime--;
         }
+    }
+
+    public void IncreaseTime(int timeIncrease)
+    {
+        Debug.Log($"CurrentTime: {_currentTime}");
+        _currentTime += timeIncrease;
+        Debug.Log($"TimeAfter: {_currentTime}");
     }
 
     public void ResetEverything()

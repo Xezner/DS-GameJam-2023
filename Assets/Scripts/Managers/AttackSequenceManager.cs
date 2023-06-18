@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class AttackSequenceManager : MonoBehaviour
@@ -51,9 +52,26 @@ public class AttackSequenceManager : MonoBehaviour
     {
         if ( (_attackCardSequence.Count >= 1 && _attackCardSequence.Contains(CardType.Medicard)) || _attackCardSequence.Count == 3)
         {
+            Debug.Log($"HERE : {_attackCardSequence[0]}");
+            foreach(var card in _attackCardSequence)
+            {
+                Debug.Log($"CARD ATTACK: {card}");
+                if(card == CardType.Medicard)
+                {
+                    TimeManager.Instance.IncreaseTime(1);
+                    continue;
+                }
+                if (EnemyManager.Instance.EnemyHealthList.Count != 0)
+                {
+                    EnemyManager.Instance.AttackCheck(card);
+                }
+            }
             _attackSequenceAnimationController.ExecuteAttack();
+
         }
     }
+
+    
 
     public void ResetAttackSequence()
     {

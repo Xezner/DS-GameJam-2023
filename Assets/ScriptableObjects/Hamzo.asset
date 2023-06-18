@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0bd73bac5470f648a72818815e72ca9, type: 3}
+  m_Name: Hamzo
+  m_EditorClassIdentifier: 
+  Name: Hamzo
+  EnemyPrefab: {fileID: 8427838062517784853, guid: 70440d1b820a144439b976db896cc7a1, type: 3}
+  HealthPrefab: {fileID: 2146325130039909734, guid: 68b980b9d746fab47a2f5234822e9d8d, type: 3}
+  EnemyHealth: 3
+  Sequence: 1
