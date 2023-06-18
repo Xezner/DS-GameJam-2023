@@ -10,4 +10,9 @@ public class CameraAnimationController : MonoBehaviour
     {
         _animator.SetTrigger("Dead");
     }
+
+    public void AnimateCameraWin()
+    {
+        _animator.SetTrigger("Win");
+    }
 }
