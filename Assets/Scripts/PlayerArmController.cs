@@ -26,7 +26,7 @@ public class PlayerArmController : MonoBehaviour
     private void Update()
     {
         //Prevents spamming of controlsd
-        if(_animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1 && _playerState != PlayerState.Idle)
+        if(_animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1 &&  _playerState != PlayerState.Idle && !_animator.IsInTransition(0))
         {
             return;
         }
@@ -51,12 +51,12 @@ public class PlayerArmController : MonoBehaviour
             Debug.Log("APPROVE");
             _playerState = PlayerState.Approving;
         }
-        if (Input.GetMouseButtonDown(0))
+        else if (Input.GetMouseButtonDown(0))
         {
             Debug.Log("REJECT");
             _playerState = PlayerState.Rejecting;
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+        else if (Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("EXECUTE");
             _playerState = PlayerState.Executing;

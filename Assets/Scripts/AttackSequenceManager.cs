@@ -25,9 +25,31 @@ public class AttackSequenceManager : MonoBehaviour
         }
     }
 
+    public void InitiateAttackSequence(CardData cardData)
+    {
+        switch (cardData.InputType)
+        {
+            case InputType.Approve:
+                {
+                    AddAttackSequence(cardData.CardType, cardData.SpriteRenderer.color);
+                    break;
+                }
+            case InputType.Reject:
+                {
+                    break;
+                }
+            case InputType.None:
+                {
+                    Instance.ResetAttackSequence();
+                    break;
+                }
+            default: break;
+        }
+    }
+
     public void ExecuteAttack()
     {
-        if (_attackCardSequence.Count >= 1)
+        if ( (_attackCardSequence.Count >= 1 && _attackCardSequence.Contains(CardType.Medicard)) || _attackCardSequence.Count == 3)
         {
             _attackSequenceAnimationController.ExecuteAttack();
         }
