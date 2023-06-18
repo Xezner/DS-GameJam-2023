@@ -62,10 +62,5 @@ public partial class GameManager : MonoBehaviour
         {
             GameOver();
         }
-
-        if (Input.GetKeyDown(KeyCode.Escape) /*&& isInGameProper*/)
-        {
-            PauseGame();
-        }
     }
 }

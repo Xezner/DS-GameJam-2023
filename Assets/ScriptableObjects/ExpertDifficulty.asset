@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6612aaef72a8f544fbcc56f63736e7d2, type: 3}
+  m_Name: ExpertDifficulty
+  m_EditorClassIdentifier: 
+  AttackRate: 40
+  RandomRate: 20
+  MedicardRate: 0
+  EnemyHealth: 0
+  GameSpeed: 12
+  GameTime: 850
+  EnemyData: {fileID: 11400000, guid: 516df961dc53a0c4ea0dd1fc26876579, type: 2}
