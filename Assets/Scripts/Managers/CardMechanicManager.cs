@@ -44,7 +44,7 @@ public class CardMechanicManager : MonoBehaviour
     private Dictionary<CardType, Sprite> _cardStyle;
     private int _objectCount;
     private int MAX_OBJECT_COUNT;
-    private LevelData _levelData;
+    private DifficultyDataHolder _levelData;
 
     public bool IsTokenCancelled = false;
     private void Awake()
@@ -61,31 +61,25 @@ public class CardMechanicManager : MonoBehaviour
         
     }
 
-    public void Init()
+    public void Init(DifficultyDataHolder difficultyData)
     {
         InitCardSprites();
         ResetCardPool();
-        SetLevelData();
-
-
+        SetLevelData(difficultyData);
     }
 
 
     public void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Return))
-        {
-            Init();
-            //_countdownTimer = 30;
-            TimeManager.Instance.CountdownTimer(_countdownTimer).Forget();
-            GenerateCardPool().Forget();
-        }
-        if(Input.GetKeyDown(KeyCode.R))
-        {
-            _gameSpeed = 1000;
-            SceneManager.LoadScene(0);
-        }
     }
+
+    public void GameStart(DifficultyDataHolder difficultyData)
+    {
+        Init(difficultyData);
+        TimeManager.Instance.CountdownTimer(_countdownTimer).Forget();
+        GenerateCardPool().Forget();
+    }
+
 
     private void InitCardSprites()
     {
@@ -215,21 +209,12 @@ public class CardMechanicManager : MonoBehaviour
         }
     }
 
-    private void SetLevelData(/*LevelData*/)
+    private void SetLevelData(DifficultyDataHolder difficultyData)
     {
-        _levelData = new();
+        _levelData = difficultyData;
+        _countdownTimer = _levelData.GameTime;
+        _gameSpeed = _levelData.GameSpeed;
         EnemyManager.Instance.InitEnemyData();
     }
-
-}
-
-
-[Serializable]
-public class LevelData
-{
-    public int AttackRate = 50;
-    public int RandomRate = 30;
-    public int MedicardRate = 0;
-    public EnemyData EnemyData;
 
 }

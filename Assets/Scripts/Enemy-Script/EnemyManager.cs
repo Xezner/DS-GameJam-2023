@@ -83,6 +83,7 @@ public class EnemyManager : MonoBehaviour
 
     void InitializeHealth()
     {
+        Debug.Log($"ENEMY HEALTH: {_enemyData.EnemyHealth}");
         for(int i = 0; i < _enemyData.EnemyHealth; i++)
         {
             var health = Instantiate(_enemyData.HealthPrefab,_healthBar.GetComponent<RectTransform>());
