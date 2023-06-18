@@ -16,7 +16,7 @@ public partial class GameManager: MonoBehaviour
         Instance._difficulty.SetActive(true);
     }
 
-    public void MainMenu()
+    public void SuccessToMainMenu()
     {
         Instance._missionSuccess.SetActive(false);
         Instance._mainMenuUI.SetActive(true);

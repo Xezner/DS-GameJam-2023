@@ -13,4 +13,12 @@ public class DifficultyDataHolder : ScriptableObject
     public int GameSpeed;
     public int GameTime = 30;
     public EnemyData EnemyData;
+    public Difficulty DifficultyLevel;
+}
+
+public enum Difficulty
+{
+    Novice,
+    Expert,
+    Legend
 }

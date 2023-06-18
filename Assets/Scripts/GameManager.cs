@@ -11,6 +11,7 @@ public partial class GameManager : MonoBehaviour
         StartScreen,
         LoreScreen,
         GameScene,
+        GameSceneMain
     }
     public static GameManager Instance;
 
@@ -21,10 +22,12 @@ public partial class GameManager : MonoBehaviour
     [SerializeField] private GameObject _gameOverUI;
     [SerializeField] private GameObject _pauseMenuUI;
     [SerializeField] private GameObject _missionSuccess;
-    public GameObject Difficulty { get { return _difficulty; } set { value = _difficulty; } }
-    public GameObject MainMenuUI { get { return _mainMenuUI; } set { value = _mainMenuUI; } }
-    public GameObject GameOverUI { get { return _gameOverUI; } set { value = _gameOverUI; } }
-    public GameObject MissionSuccess { get { return _missionSuccess; } set { value = _gameOverUI; } }
+    [SerializeField] private GameObject _missionClear;
+    public GameObject Difficulty { get { return _difficulty; } set {  _difficulty = value; } }
+    public GameObject MainMenuUI { get { return _mainMenuUI; } set { _mainMenuUI = value; } }
+    public GameObject GameOverUI { get { return _gameOverUI; } set { _gameOverUI = value; } }
+    public GameObject MissionSuccess { get { return _missionSuccess; } set { _missionSuccess = value; } }
+    public GameObject LegendClear { get { return _missionClear; } set { _missionClear = value; } }
 
     public bool PlayMode;
 
