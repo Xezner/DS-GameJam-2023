@@ -9,6 +9,7 @@ public class PlayerArmController : MonoBehaviour
     [SerializeField] SpriteRenderer _colliderSprite;
     [SerializeField] SpriteRenderer _playerArmSprite;
     [SerializeField] List<Sprite> _playerSpriteState;
+    [SerializeField] Collider2D _playerCollider;
     private InputType _inputType;
     private PlayerState _playerState;
     private Dictionary<PlayerState, Sprite> _playerSpriteStateDict;
@@ -126,7 +127,12 @@ public class PlayerArmController : MonoBehaviour
     public void AssignMove(Collider2D collision)
     {
         var proceduralObject = collision.transform.GetComponentInParent<CardData>();
+        if(proceduralObject.IsTouched)
+        {
+            return;
+        }
         proceduralObject.InputType = _inputType;
+        proceduralObject.Overlay.sprite = CardMechanicManager.Instance.CardOverlay[_inputType];
         proceduralObject.IsTouched = true;
         var cardType = proceduralObject.CardType;
         Debug.Log($"CARD, {cardType}");

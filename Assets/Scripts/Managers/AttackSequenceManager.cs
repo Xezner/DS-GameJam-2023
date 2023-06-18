@@ -31,7 +31,7 @@ public class AttackSequenceManager : MonoBehaviour
         {
             case InputType.Approve:
                 {
-                    AddAttackSequence(cardData.CardType, cardData.SpriteRenderer.color);
+                    AddAttackSequence(cardData.CardType, cardData.Icon.sprite);
                     break;
                 }
             case InputType.Reject:
@@ -59,19 +59,19 @@ public class AttackSequenceManager : MonoBehaviour
     {
         foreach(SpriteRenderer attackSprite in AttackSprites)
         {
-            attackSprite.color = Color.white;
+            attackSprite.sprite = null;
         }
         _attackCardSequence.Clear();
         _attackCount = 0;
     }
 
-    public void AddAttackSequence(CardType cardType, Color colorStyle)
+    public void AddAttackSequence(CardType cardType, Sprite cardStyle)
     {
         if(_attackCount == MAX_ATTACK_COUNT)
         {
             return;
         }
-        AttackSprites[_attackCount].color = colorStyle;
+        AttackSprites[_attackCount].sprite = cardStyle;
         _attackCardSequence.Add(cardType);
         _attackCount++;
     }
