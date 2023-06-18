@@ -15,4 +15,14 @@ public class CameraAnimationController : MonoBehaviour
     {
         _animator.SetTrigger("Win");
     }
+
+    public Animator GetAnimator()
+    {
+        return _animator;
+    }
+
+    public void OpenGameOverScreen()
+    {
+        CardMechanicManager.Instance.OpenGameOverScreen();
+    }
 }

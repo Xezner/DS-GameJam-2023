@@ -57,8 +57,7 @@ public class CardMechanicManager : MonoBehaviour
 
     private void Start()
     {
-        
-        
+        GameStart(GameManager.Instance.CurrentDifficulty);
     }
 
     public void Init(DifficultyDataHolder difficultyData)
@@ -66,11 +65,6 @@ public class CardMechanicManager : MonoBehaviour
         InitCardSprites();
         ResetCardPool();
         SetLevelData(difficultyData);
-    }
-
-
-    public void Update()
-    {
     }
 
     public void GameStart(DifficultyDataHolder difficultyData)
@@ -141,10 +135,19 @@ public class CardMechanicManager : MonoBehaviour
             HideCardAndEncoder();
             _cameraAnimationController.AnimateCameraWin();
             Debug.LogError("MISSION CLEARED");
-            //Open UI for victory Screen
         }
         EnemyManager.Instance.GameStartedToggler();
     }
+
+    
+    public void OpenGameOverScreen()
+    {
+        var resultDisplay = !IsTokenCancelled ? GameManager.Instance.GameOverUI : 
+                           _levelData.DifficultyLevel == Difficulty.Legend ? GameManager.Instance.LegendClear : GameManager.Instance.MissionSuccess;
+        resultDisplay.SetActive(true);
+    }
+
+
 
     public void HideCardAndEncoder()
     {
