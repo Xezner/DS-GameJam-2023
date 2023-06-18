@@ -6,17 +6,23 @@ public partial class GameManager
 {
     public static void EasyDifficulty()
     {
-        SceneManager.LoadScene(1);
+        Instance._mainMenuUI.SetActive(false);
+        Instance._difficulty.SetActive(false);
+        SceneManager.LoadScene(Scenes.LoreScreen.ToString(), LoadSceneMode.Additive);
     }
 
     public static void NormalDifficulty()
     {
-        SceneManager.LoadScene(1);
+        Instance._mainMenuUI.SetActive(false);
+        Instance._difficulty.SetActive(false);
+        SceneManager.LoadScene(Scenes.LoreScreen.ToString(), LoadSceneMode.Additive);
     }
 
     public static void HardDifficulty()
     {
-        SceneManager.LoadScene(1);
+        Instance._mainMenuUI.SetActive(false);
+        Instance._difficulty.SetActive(false);
+        SceneManager.LoadScene(Scenes.LoreScreen.ToString(), LoadSceneMode.Additive);
     }
 
     public static void BackToMainMenu()

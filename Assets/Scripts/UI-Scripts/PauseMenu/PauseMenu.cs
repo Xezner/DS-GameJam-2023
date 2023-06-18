@@ -8,6 +8,7 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private GameObject _panel;
     [SerializeField] private GameObject _pauseMenu;
     [SerializeField] private GameObject _confirmationPopUp;
+
     // Update is called once per frame
     void Update()
     {
