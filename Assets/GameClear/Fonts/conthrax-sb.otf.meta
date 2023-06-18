@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 16c4a9ff5d8a4e94ca20e97377e27a85
+guid: 489cf6ed8b681b3448b1aa3e2b31a694
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,10 +9,8 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - DS-Digital
-  fallbackFontReferences:
-  - {fileID: 12800000, guid: e1e27fd9b47c6b54d98f382c79519fab, type: 3}
-  - {fileID: 12800000, guid: e9a35d264ae9d0e48a301069b4d03277, type: 3}
+  - Conthrax
+  fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

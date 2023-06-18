@@ -11,6 +11,7 @@ public class LoreScreen : MonoBehaviour
     [SerializeField] private float _scrollSpeed;
     public GameObject Tutorial;
     public GameObject ScreenButton;
+    public GameObject DialogueText;
     public Transform DialogueTextTrans;
     private int camPos = 2000;
 
@@ -37,12 +38,11 @@ public class LoreScreen : MonoBehaviour
     void ShowTutorial()
     {
         Tutorial.SetActive(true);
-        ScreenButton.SetActive(true);
     }
 
     public void ClickAnywhereToContinue()
     {
-        SceneManager.UnloadSceneAsync(GameManager.Scenes.LoreScreen.ToString());
-        SceneManager.LoadScene(GameManager.Scenes.GameScene.ToString(),LoadSceneMode.Additive);
+        DialogueText.SetActive(false);
+        ShowTutorial();
     }
 }
