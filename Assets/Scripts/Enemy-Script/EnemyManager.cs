@@ -119,15 +119,15 @@ public class EnemyManager : MonoBehaviour
                 _enemyState = EnemyState.AttackMode;
             }
             var time = (int)Math.Ceiling(TimeManager.Instance.MaxTime * 0.33) + 1;
-            UpdateEnemyState(_enemyState, time).Forget();
+            StartCoroutine(UpdateEnemyState(_enemyState, time));
         }
     }
 
-    private async UniTask UpdateEnemyState(EnemyState enemyState, int time)
+    private IEnumerator UpdateEnemyState(EnemyState enemyState, int time)
     {
         TimeManager.Instance.UpdateTimerState(_timerStateSprite[enemyState]);
         _enemySprite.sprite = _enemyStateSprite[enemyState];
-
+        Debug.LogError("UPDATED");
         float elapsedTime = 0f;
         var nextEnum = (EnemyState)((int)enemyState + 1);
         Vector3 initialScale = _enemyPrefab.transform.localScale;
@@ -136,12 +136,12 @@ public class EnemyManager : MonoBehaviour
         if (enemyState != EnemyState.AttackMode)
         {
             _isScaling = true;
-            while (elapsedTime < time)
+            while (elapsedTime < time && _isGameStarted)
             {
                 float t = elapsedTime / time;
                 _enemyPrefab.transform.localScale = Vector3.Lerp(initialScale, targetScale, t);
                 elapsedTime += Time.deltaTime;
-                await UniTask.Yield();
+                yield return null;
             }
             _enemyPrefab.transform.localScale = _enemyStateScale[(EnemyState)(int)enemyState + 1];
         }
@@ -166,8 +166,11 @@ public class EnemyManager : MonoBehaviour
     {
         if(EnemyHealthList.Count == 0)
         {
+            _isGameStarted = false;
             _enemyState = EnemyState.Dead;
-            _enemySprite.sprite = _enemyStateSprite[_enemyState];
+            _enemySprite.sprite = _enemyStateSprite[EnemyState.Dead];
+            StopAllCoroutines();
+            Debug.Log("DEAD");
             CardMechanicManager.Instance.IsTokenCancelled = true;
         }
     }

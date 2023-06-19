@@ -15,8 +15,8 @@ MonoBehaviour:
   AttackRate: 40
   RandomRate: 20
   MedicardRate: 0
-  EnemyHealth: 3
+  EnemyHealth: 12
   GameSpeed: 850
-  GameTime: 10
+  GameTime: 30
   EnemyData: {fileID: 11400000, guid: 516df961dc53a0c4ea0dd1fc26876579, type: 2}
   DifficultyLevel: 1
