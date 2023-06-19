@@ -27,12 +27,12 @@ public class LoreScreen : MonoBehaviour
 
     private void Update()
     {
-        TextCrawl();
+        //TextCrawl();
 
-        if (DialogueTextTrans.position.y > camPos)
-        {
-            ShowTutorial();
-        }
+        //if (DialogueTextTrans.position.y > camPos)
+        //{
+        //    ShowTutorial();
+        //}
     }
 
     void ShowTutorial()
@@ -42,6 +42,7 @@ public class LoreScreen : MonoBehaviour
 
     public void ClickAnywhereToContinue()
     {
+        Debug.LogError("TEST");
         DialogueText.SetActive(false);
         ShowTutorial();
     }

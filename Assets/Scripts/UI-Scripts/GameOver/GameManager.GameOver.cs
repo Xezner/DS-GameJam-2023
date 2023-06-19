@@ -13,6 +13,7 @@ public partial class GameManager: MonoBehaviour
     public void Retry()
     {
         _gameOver = false;
+        SceneManager.UnloadSceneAsync(Scenes.GameSceneMain.ToString());
         Instance.GameOverUI.SetActive(false);
         Instance._difficulty.SetActive(true);
     }
@@ -20,7 +21,9 @@ public partial class GameManager: MonoBehaviour
     public void ReturnToMainMenu()
     {
         _gameOver = false;
+        SceneManager.UnloadSceneAsync(Scenes.GameSceneMain.ToString());
         Instance.GameOverUI.SetActive(false);
         Instance._mainMenuUI.SetActive(true);
+
     }
 }

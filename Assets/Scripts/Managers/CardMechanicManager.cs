@@ -38,6 +38,9 @@ public class CardMechanicManager : MonoBehaviour
     [Header("Camera Animator")]
     [SerializeField] private CameraAnimationController _cameraAnimationController;
 
+    [Header("Wave Overlay")]
+    [SerializeField] private GameObject _waveOverlay;
+
     public Dictionary<InputType, Sprite> CardOverlay { get { return _cardOverlay; } set { _cardOverlay = value; } }
     public Dictionary<CardType, Sprite> CardStyle { get { return _cardStyle; } set { _cardStyle = value; } }
     private Dictionary<InputType, Sprite> _cardOverlay;
@@ -57,6 +60,21 @@ public class CardMechanicManager : MonoBehaviour
 
     private void Start()
     {
+        TimeManager.Instance.gameObject.SetActive(true);
+    }
+
+    public void WaveStartCallback()
+    {
+        Debug.Log("NO ERROR");
+        TimeManager.Instance.gameObject.SetActive(true);
+        TimeManager.Instance.TurnOffUI();
+        SceneManager.UnloadSceneAsync(GameManager.Scenes.LoreScreen.ToString());
+    }
+
+    public void AfterWaveOverlayCallback()
+    {
+        Debug.Log("ERROR");
+        TimeManager.Instance.TurnOnUI();
         GameStart(GameManager.Instance.CurrentDifficulty);
     }
 

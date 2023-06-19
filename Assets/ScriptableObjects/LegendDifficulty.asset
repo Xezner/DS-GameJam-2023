@@ -17,6 +17,6 @@ MonoBehaviour:
   MedicardRate: 0
   EnemyHealth: 3
   GameSpeed: 750
-  GameTime: 30
+  GameTime: 10
   EnemyData: {fileID: 11400000, guid: 516df961dc53a0c4ea0dd1fc26876579, type: 2}
   DifficultyLevel: 2

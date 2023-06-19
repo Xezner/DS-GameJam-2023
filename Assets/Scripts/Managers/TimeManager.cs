@@ -35,6 +35,18 @@ public class TimeManager : MonoBehaviour
         _timerText.text = string.Empty;
     }
 
+    public void TurnOffUI()
+    {
+        _timerText.gameObject.SetActive(false);
+        _timeUISprite.gameObject.SetActive(false);
+    }
+
+    public void TurnOnUI()
+    {
+        _timerText.gameObject.SetActive(true);
+        _timeUISprite.gameObject.SetActive(true);
+    }
+
     public async UniTask CountdownTimer(int maxTimer)
     {
 
