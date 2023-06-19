@@ -14,6 +14,8 @@ public class PauseMenu : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
+            Scene currentScene = SceneManager.GetActiveScene();
+            Debug.LogError($"Current Scene{currentScene.name}");
             PauseGame();
         }
     }
@@ -22,25 +24,22 @@ public class PauseMenu : MonoBehaviour
     {
         _panel.SetActive(true);
         _pauseMenu.SetActive(true);
-        Time.timeScale = 0;
     }
 
     public void ResumeGame()
     {
         _panel.SetActive(false);
         _pauseMenu.SetActive(false);
-        Time.timeScale = 1;
     }
 
     public void Abort()
     {
         _pauseMenu.SetActive(false);
-        _confirmationPopUp.SetActive(true);
     }
 
     public void GoBackToMainMenu()
     {
-        SceneManager.LoadScene("UISample");
+        SceneManager.LoadScene(0);
     }
 
     public void ClosePopUp()

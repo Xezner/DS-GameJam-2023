@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LoreScreen.unity
     guid: 772522ffe91f7f24eb68550acb239914
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/GameScene.unity
     guid: eda74de83a73dc947ba0aeb761046b4c
   - enabled: 1

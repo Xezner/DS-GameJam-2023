@@ -31,6 +31,12 @@ public class PlayerArmController : MonoBehaviour
         {
             return;
         }
+
+        if(CardMechanicManager.Instance.IsGameOver)
+        {
+            return;
+        }
+
         ResetAnimationTriggers();
         GetUserInput();
         UpdatePlayerState(_playerState);

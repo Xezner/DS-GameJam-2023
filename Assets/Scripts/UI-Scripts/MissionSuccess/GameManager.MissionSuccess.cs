@@ -25,4 +25,12 @@ public partial class GameManager: MonoBehaviour
         Instance._missionSuccess.SetActive(false);
         Instance._mainMenuUI.SetActive(true);
     }
+
+
+    public void GameClearToMainMenu()
+    {
+        SceneManager.UnloadSceneAsync(Scenes.GameSceneMain.ToString());
+        Instance._missionClear.SetActive(false);
+        Instance._mainMenuUI.SetActive(true);
+    }
 }

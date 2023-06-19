@@ -8,6 +8,7 @@ using static GameManager;
 public class LevelChanger : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _dialogueText;
+    public GameObject Label;
     public Animator Anim;
     public GameObject FadeToBlack;
     public GameObject MissionStart;
@@ -26,6 +27,7 @@ public class LevelChanger : MonoBehaviour
         {
             Anim.ResetTrigger("Dialogue");
             Anim.StopPlayback();
+            Label.SetActive(false);
             _dialogueText.gameObject.SetActive(false);
             ShowTutorial();
         }
@@ -45,6 +47,7 @@ public class LevelChanger : MonoBehaviour
 
     public void ShowTutorial()
     {
+        Label.SetActive(false);
         IsDialogueStarting = false;
         FadeToBlack.SetActive(true);
         Tutorial.SetActive(true);

@@ -50,6 +50,7 @@ public class CardMechanicManager : MonoBehaviour
     private DifficultyDataHolder _levelData;
 
     public bool IsTokenCancelled = false;
+    public bool IsGameOver = false;
     private void Awake()
     {
         if(Instance == null)
@@ -60,6 +61,7 @@ public class CardMechanicManager : MonoBehaviour
 
     private void Start()
     {
+        IsGameOver = false;
         TimeManager.Instance.gameObject.SetActive(true);
     }
 
@@ -142,6 +144,7 @@ public class CardMechanicManager : MonoBehaviour
 
     public void GameOver()
     {
+        IsGameOver = true;
         if (!IsTokenCancelled)
         {
             HideCardAndEncoder();
