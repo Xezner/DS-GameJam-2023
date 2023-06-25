@@ -14,6 +14,7 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private RectTransform _rectTransform;
     [SerializeField] private VerticalLayoutGroup _verticalLayoutGroup;
     [SerializeField] private GameObject _enemyPrefab;
+    [SerializeField] private RectTransform _enemyRectTransform;
     [SerializeField] private SpriteRenderer _enemySprite;
     [SerializeField] private EnemyData _enemyData;
     [SerializeField] private GameObject _healthBar;
@@ -21,12 +22,17 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private List<Sprite> _enemyStateSpriteList;
     [SerializeField] private List<Sprite> _timerStateSpriteList;
     public List<EnemyHealth> EnemyHealthList { get { return _enemyHealthList; } set { _enemyHealthList = value; } }
-    private EnemyState _enemyState;
+    private EnemyState _currentEnemyState;
+    private EnemyState _previousEnemyState;
     private bool _isGameStarted = false;
+    private bool _isScaling = false;
+    private bool _isAbrupted = false;
     private Dictionary<EnemyState, Vector3> _enemyStateScale;
     private Dictionary<EnemyState, Sprite> _enemyStateSprite;
     private Dictionary<EnemyState, Sprite> _timerStateSprite;
 
+
+    private int counter = 0;
     private void Awake()
     {
         if(Instance == null)
@@ -62,27 +68,22 @@ public class EnemyManager : MonoBehaviour
             { EnemyState.PhaseOne, _timerStateSpriteList[2] },
             { EnemyState.PhaseTwo, _timerStateSpriteList[1] },
             { EnemyState.PhaseThree, _timerStateSpriteList[0] },
+            { EnemyState.AttackMode, _timerStateSpriteList[0] },
         };
+
+        _currentEnemyState = EnemyState.PhaseOne;
+        _previousEnemyState = EnemyState.Dead;
     }
 
     public void InitEnemyData()
     {
         _isGameStarted = true;
-        DestroyChildren();
+        
         InitializeHealth();
     }
-
-
-    void DestroyChildren()
-    {
-        foreach (Transform child in _healthBar.transform)
-        {
-            Destroy(child.gameObject);
-        }
-    }
-
     void InitializeHealth()
     {
+        DestroyChildren(_healthBar.transform);
         Debug.Log($"ENEMY HEALTH: {_enemyData.EnemyHealth}");
         for(int i = 0; i < _enemyData.EnemyHealth; i++)
         {
@@ -93,59 +94,114 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    private bool _isScaling = false;
-
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (_isGameStarted && !_isScaling)
+        CheckEnemyState();
+    }
+
+    public void CheckEnemyState()
+    {
+        if (_isGameStarted/* && !_isScaling*/)
         {
-            if (TimeManager.Instance.CurrentTime == TimeManager.Instance.MaxTime)
+            if (TimeManager.Instance.CurrentTime <= TimeManager.Instance.MaxTime)
             {
-                _enemyState = EnemyState.PhaseOne;
-                _enemyPrefab.transform.localScale = _enemyStateScale[_enemyState];
+                _currentEnemyState = EnemyState.PhaseOne;
+                //_enemyPrefab.transform.localScale = _enemyStateScale[_currentEnemyState];
             }
-            else if (TimeManager.Instance.CurrentTime <= Math.Floor(TimeManager.Instance.MaxTime * 0.67) && _enemyState != EnemyState.PhaseTwo)
+            if (TimeManager.Instance.CurrentTime <= Math.Floor(TimeManager.Instance.MaxTime * 0.67))
             {
-                _enemyState = EnemyState.PhaseTwo;
+                _currentEnemyState = EnemyState.PhaseTwo;
             }
-            else if (TimeManager.Instance.CurrentTime <= Math.Floor(TimeManager.Instance.MaxTime * 0.33) && _enemyState != EnemyState.PhaseThree)
+            if (TimeManager.Instance.CurrentTime <= Math.Floor(TimeManager.Instance.MaxTime * 0.33))
             {
-                _enemyState = EnemyState.PhaseThree;
+                _currentEnemyState = EnemyState.PhaseThree;
             }
-            else if (TimeManager.Instance.CurrentTime <= 1)
+            if (TimeManager.Instance.CurrentTime < 1)
             {
                 _isGameStarted = false;
-                _enemyState = EnemyState.AttackMode;
+                _currentEnemyState = EnemyState.AttackMode;
+                StopAllCoroutines();
             }
-            var time = (int)Math.Ceiling(TimeManager.Instance.MaxTime * 0.33) + 1;
-            StartCoroutine(UpdateEnemyState(_enemyState, time));
+            Debug.Log($"<color=yellow>CoroutineCounter: </color> {counter}");
+            Debug.Log($"Previous Enemy State: {_previousEnemyState}, Current State: {_currentEnemyState}");
+            Debug.LogError($"CurrentScale: {_enemyRectTransform.localScale}"); 
+            if (_currentEnemyState != _previousEnemyState && _currentEnemyState != EnemyState.Dead && _currentEnemyState != EnemyState.AttackMode)
+            {
+                bool isRegressing = false;
+                if ((int)_currentEnemyState < (int)_previousEnemyState && _previousEnemyState != EnemyState.Dead)
+                {
+                    Debug.LogError("REVERTED");
+                    isRegressing = true;
+                }
+                EnemyStateChanged();
+                StopCoroutine(nameof(UpdateEnemyScale));
+                StartCoroutine(UpdateEnemyScale(_currentEnemyState, isRegressing));
+            }
         }
     }
 
-    private IEnumerator UpdateEnemyState(EnemyState enemyState, int time)
+    private void EnemyStateChanged()
     {
+        Debug.LogError("ENEMY STATE CHANGED");
+        _previousEnemyState = _currentEnemyState;
+        Debug.LogWarning($"Previous Enemy State: {_previousEnemyState}, Current State: {_currentEnemyState}");
+    }
+
+    private IEnumerator UpdateEnemyScale(EnemyState enemyState, bool isRegressing)
+    {
+        Debug.LogError($"<color=red>INITIAL UPDATE ENEMY SCALE: {_enemyRectTransform.localScale}</color>");
+        yield return new WaitForSeconds(0.1f);
+        CalculateTransformTime(out int time, out float timePercentage, isRegressing);
+
         TimeManager.Instance.UpdateTimerState(_timerStateSprite[enemyState]);
         _enemySprite.sprite = _enemyStateSprite[enemyState];
-        Debug.LogError("UPDATED");
+
         float elapsedTime = 0f;
-        var nextEnum = (EnemyState)((int)enemyState + 1);
-        Vector3 initialScale = _enemyPrefab.transform.localScale;
+        var nextEnum = isRegressing ? enemyState : (EnemyState)((int)enemyState + 1);
+        Vector3 initialScale = _enemyRectTransform.localScale;
         Vector3 targetScale = _enemyStateScale[nextEnum];
 
+        if(isRegressing)
+        {
+            targetScale = initialScale + (targetScale - initialScale) * timePercentage;
+        }
+        Debug.LogError($"Initial scale: {initialScale}, Target Scale: {targetScale}, TIME: {time}, percentage: {timePercentage}");
         if (enemyState != EnemyState.AttackMode)
         {
-            _isScaling = true;
             while (elapsedTime < time && _isGameStarted)
             {
+                float speed = 1f;
+                if (!isRegressing)
+                {
+                    CalculateTransformTime(out int timeElapsed, out speed, isRegressing);
+                }
                 float t = elapsedTime / time;
-                _enemyPrefab.transform.localScale = Vector3.Lerp(initialScale, targetScale, t);
+                float scaledT = Mathf.Pow(t, speed);
+                Debug.Log($"ScaledT: {scaledT}");
+                _enemyRectTransform.localScale = Vector3.Lerp(initialScale, targetScale, scaledT);
                 elapsedTime += Time.deltaTime;
+                Debug.LogError($"FINAL UPDATE ENEMY SCALE: {_enemyRectTransform.localScale}");
                 yield return null;
             }
-            _enemyPrefab.transform.localScale = _enemyStateScale[(EnemyState)(int)enemyState + 1];
+            //_enemyRectTransform.localScale = targetScale;
         }
-        _isScaling = false;
+        Debug.Log($"End Scale: {_enemyRectTransform.localScale}");
+    }
+
+    private void CalculateTransformTime(out int time, out float timePercentage, bool isRegressing)
+    {
+        var oneThirdTimeWithIncrease = (TimeManager.Instance.MaxTime + TimeManager.Instance.TimeIncrease) * 0.33;
+        var oneThirdtime = TimeManager.Instance.MaxTime * 0.33;
+        time = (int)Math.Ceiling(oneThirdTimeWithIncrease + 1);
+        timePercentage = 2.11f - (time / (float)oneThirdtime);
+        if (isRegressing)
+        {
+            time = (int)Math.Ceiling(oneThirdTimeWithIncrease - oneThirdtime);
+            time = time == 0 ? 1 : time;
+            timePercentage = time / (float)oneThirdTimeWithIncrease;
+        }
+        Debug.Log($"Time {time}, Time Percentage: {timePercentage}, Time Increase: {TimeManager.Instance.TimeIncrease}");
+        TimeManager.Instance.IncreaseTime(0);
     }
 
     public void AttackCheck(CardType card)
@@ -167,7 +223,7 @@ public class EnemyManager : MonoBehaviour
         if(EnemyHealthList.Count == 0)
         {
             _isGameStarted = false;
-            _enemyState = EnemyState.Dead;
+            _currentEnemyState = EnemyState.Dead;
             _enemySprite.sprite = _enemyStateSprite[EnemyState.Dead];
             StopAllCoroutines();
             Debug.Log("DEAD");
@@ -177,7 +233,16 @@ public class EnemyManager : MonoBehaviour
 
     public void GameStartedToggler()
     {
+        _currentEnemyState = EnemyState.AttackMode;
         _isGameStarted = !_isGameStarted;
+    }
+
+    void DestroyChildren(Transform parent)
+    {
+        foreach (Transform child in parent)
+        {
+            Destroy(child.gameObject);
+        }
     }
 }
 

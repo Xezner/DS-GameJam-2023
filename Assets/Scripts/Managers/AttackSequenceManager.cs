@@ -52,13 +52,14 @@ public class AttackSequenceManager : MonoBehaviour
     {
         if ( (_attackCardSequence.Count >= 1 && _attackCardSequence.Contains(CardType.Medicard)) || _attackCardSequence.Count == 3)
         {
+            int timeIncreaseCounter = 0;
             Debug.Log($"HERE : {_attackCardSequence[0]}");
             foreach(var card in _attackCardSequence)
             {
                 Debug.Log($"CARD ATTACK: {card}");
                 if(card == CardType.Medicard)
                 {
-                    TimeManager.Instance.IncreaseTime(1);
+                    timeIncreaseCounter++;
                     continue;
                 }
                 if (EnemyManager.Instance.EnemyHealthList.Count != 0)
@@ -66,6 +67,7 @@ public class AttackSequenceManager : MonoBehaviour
                     EnemyManager.Instance.AttackCheck(card);
                 }
             }
+            TimeManager.Instance.IncreaseTime(timeIncreaseCounter);
             _attackSequenceAnimationController.ExecuteAttack();
 
         }

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6612aaef72a8f544fbcc56f63736e7d2, type: 3}
   m_Name: LegendDifficulty
   m_EditorClassIdentifier: 
-  AttackRate: 50
-  RandomRate: 30
+  AttackRate: 101
+  RandomRate: 101
   MedicardRate: 0
   EnemyHealth: 18
   GameSpeed: 750

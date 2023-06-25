@@ -16,9 +16,8 @@ public class TimeManager : MonoBehaviour
 
     private int _currentTime;
     public int CurrentTime { get { return _currentTime; } set{ _currentTime = value; } }
-
     public int MaxTime;
-
+    public int TimeIncrease = 0;
     const int ONE_SECOND = 1000;
 
     private void Awake()
@@ -49,7 +48,6 @@ public class TimeManager : MonoBehaviour
 
     public async UniTask CountdownTimer(int maxTimer)
     {
-
         MaxTime = maxTimer;
        _currentTime = maxTimer;
         while (_currentTime >= 0 && !CardMechanicManager.Instance.IsTokenCancelled)
@@ -71,9 +69,9 @@ public class TimeManager : MonoBehaviour
 
     public void IncreaseTime(int timeIncrease)
     {
-        Debug.Log($"CurrentTime: {_currentTime}");
         _currentTime += timeIncrease;
-        Debug.Log($"TimeAfter: {_currentTime}");
+        TimeIncrease = timeIncrease;
+        Debug.LogError($"Time Increase: {timeIncrease}");
     }
 
     public void ResetEverything()
